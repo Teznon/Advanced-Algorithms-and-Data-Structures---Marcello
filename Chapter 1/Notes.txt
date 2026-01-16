@@ -1,0 +1,22 @@
+Definitions: 
+    Data Structure: A way to organize data for storage and retrieval. 
+    
+        Data Structures can be abstract or concrete:
+            - Abstract Data Structure (ADT): Defines what operations can be applied to some data, and
+                the complexity involved in such. Does not define things such as how data is stored or memory
+                is used.
+                The text compares this to a Blueprint
+            - Data Strucutre (concrete): The concrete implementation of a specification provided by and ADT.
+                The text compares this to the translation of the Blueprint (ADT) into real code.
+
+Data Structures are nouns
+Algorithms are verbs
+
+Greedy Algorithm: A strategy to solve problems that finds the optimal solution by making the 
+    locally optimal choice at each step. 
+        a.k.a. : Choose the best choice for now, not concerning yourself with the future.
+
+Brute Force Algoritm: Trying all possible solutions, until finding the correct one.
+
+NP-Complete: A set of problems for which an given solution can be verified quickly, but there is no known
+    efficient way to locate a solution in the first place. 

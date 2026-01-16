@@ -1,0 +1,35 @@
+Definitions: 
+    API: The contract that a data structure makes with external clients. 
+    Invariants: Internal properties that always hold true throughout the life 
+        of the data structure. These make sure that the conditions necessary to live up
+        to the contract with external clients are always met. 
+    Data Model: To host the data (raw chunk of memory, list, tree, etc.)
+    Algoritms: The internal logic hat is used to update the data structure while making sure
+        invariants are not violated.
+
+API of Priority Queue (PQ)
+    top(): Returns and extracts the element with the highest priority.
+    peek(): Returns the element with the highest priority, but without extracting it from the Queue
+    insert(e, p): Adds a new element 'e' with priority 'p' to the PQ.
+    remove(e): Removes element 'e' from the Queue
+    update(e, p): Changes the priority for element 'e' and sets it to 'p'
+
+Concrete Data Strucutre: Heap
+
+    API:
+    Heap {
+        top() -> element
+        peek() -> element
+        insert(element, priority)
+        remove(element)
+        update(element, priority)
+    }
+
+    Contract with Client: The top element returned by the queue is always the element
+        with highest priority currently stored in the queue.
+
+    Data Model: An array whos elements are the items stored in the heap.
+
+    Invariants: Every element has two "children".
+        For the element at position i: its children are located at indicies 2*i+1 and 2*(i+1)
+        Every element has higher priority than it's children. 
