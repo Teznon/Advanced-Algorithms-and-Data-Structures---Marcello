@@ -1,11 +1,12 @@
 /*Summary: 
-The purpose of this program is to implement a negated max heap for tasks that hold a string description and a priority level.
+The purpose of this program is to implement a max heap for tasks that hold a string description and a priority level.
 */
 
 #include <iostream> 
 #include <string>
 #include <vector>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
 
@@ -24,6 +25,29 @@ public:
     }
     void remove(){
 
+        if(taskList.size() == 0){
+            cout << "Heap is empty. No more tasks to remove." << endl;
+            return;
+        }
+        
+        taskList[0] = taskList[taskList.size() - 1];
+        taskList.pop_back();
+
+        heapifyDown();
+
+    }
+
+    void printHeap(){
+
+        for(int i = 0; i < ceil(log2(taskList.size() + 1)); i++){
+            cout << "Level " << i << ": ";
+            
+            for(int j = pow(2, i) - 1; j < pow(2, i + 1) - 1 && j < taskList.size(); j++){ 
+                cout << "[ " << taskList[j].name << " - " << taskList[j].priority << " ]" << "  ";
+            }
+            cout << "\n";
+        }
+        cout << "----------------------" << endl;
     }
 private:
 
@@ -57,25 +81,37 @@ private:
         int childIndex_R = 2 * (currentIndex + 1);
         int childIndex_L = (2 * currentIndex) + 1;
 
+        //initialize highest priority child index
         int childIndex_H;
 
-        if(taskList[childIndex_L].priority > taskList[childIndex_R].priority){
-            childIndex_H = childIndex_L;
-        } else {
-            childIndex_H = childIndex_R;
-        }
-
-        while(currentIndex != taskList.size() - 1 && taskList[currentIndex].priority < taskList[childIndex_H].priority){
-                                                            
-            Task tempTask = taskList[currentIndex];
-
+        //Check which child has higher priority, set childIndex_H to that index
+        if(childIndex_L < taskList.size() && childIndex_R < taskList.size()){
             if(taskList[childIndex_L].priority > taskList[childIndex_R].priority){
-                childIndex_H = childIndex_L;
+                    childIndex_H = childIndex_L;
+                } else {
+                    childIndex_H = childIndex_R;
+                }
             } else {
-                childIndex_H = childIndex_R;
+                return;
             }
 
 
+        //While the current index is not a leaf, and the current task has lower priority than the highest priority child, swap them
+        while(taskList[currentIndex].priority < taskList[childIndex_H].priority){
+                                                            
+            Task tempTask = taskList[currentIndex];
+
+            if(childIndex_L < taskList.size() && childIndex_R < taskList.size()){
+                if(taskList[childIndex_L].priority > taskList[childIndex_R].priority){
+                    childIndex_H = childIndex_L;
+                } else {
+                    childIndex_H = childIndex_R;
+                }
+            } else {
+                break;
+            }
+
+            //the swap
             if(taskList[currentIndex].priority < taskList[childIndex_H].priority){
                 taskList[currentIndex] = taskList[childIndex_H];
                 taskList[childIndex_H] = tempTask;
@@ -88,6 +124,7 @@ private:
         }
     }
 
+    
 };
 
 //No longer used print function
@@ -132,23 +169,25 @@ int main(){
 
         //use getline to set newTask.name to the first entry, ended by the delimiter
         getline(ss, newTask.name, ',');
-        cout << "Task Name: " << newTask.name << endl;
+        // cout << "Task Name: " << newTask.name << endl;
 
         //set newTask.description to the second entry, ended by the delimiter 
         getline(ss, newTask.description, ',');
-        cout << "Task Description:" << newTask.description << endl;
+        // cout << "Task Description:" << newTask.description << endl;
 
         //set tempField to the string in the third input, then use stoi to store new int as newTask.priority
         getline(ss, tempField, ',');
         newTask.priority = stoi(tempField);
-        cout << "Task Priority: " << newTask.priority << endl;
+        // cout << "Task Priority: " << newTask.priority << endl;
 
         //push it to the vector
         maxHeap.insert(newTask);
-        cout << "New Task: " << newTask.name << " inserted into the heap.\n";
+        // cout << "New Task: " << newTask.name << " inserted into the heap.\n";
 
         //clear ss
         ss.clear();
-        cout << "StringStream Cleared.\n" << endl;
+        // cout << "StringStream Cleared.\n" << endl;
+
+        maxHeap.printHeap();
     }
 }
